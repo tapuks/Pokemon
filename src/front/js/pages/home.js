@@ -1,3 +1,4 @@
+git remote add origin https://github.com/tapuks/Pokemon.git
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
