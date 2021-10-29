@@ -3,6 +3,8 @@ import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/home.scss";
 
+// import { Container } from "react-bootstrap";
+
 export const Home = () => {
 	const { store, actions } = useContext(Context);
 	const [pokemon, setPokemon] = useState(undefined);
@@ -16,6 +18,7 @@ export const Home = () => {
 	console.log("width", windowWidthHeigth.width, "heigth", windowWidthHeigth.heigth);
 
 	// TENEMOS EL ALTO Y ANCHO DE PANTALLA, DECIR QUE TOP Y LEFT DE MOVERSE EN PERSONA COMO MAXIMO Y MINIMO SEA WIDTHPANTALLA... Y LO MISMO EN HEIGTH
+	// document.body.style = "background: green;";
 
 	useEffect(() => {
 		setNumPokemon(Math.floor(Math.random() * (152 - 1) + 1));
@@ -78,7 +81,7 @@ export const Home = () => {
 	};
 
 	return (
-		<>
+		<body className="container">
 			<div className="pokemon" style={{ top: topPokemon, left: leftPokemon }}>
 				{pokemon != undefined && (
 					<img src={pokemon.sprites.front_default} />
@@ -103,6 +106,6 @@ export const Home = () => {
 			</div> */}
 			{/* <button onClick={() => setClassName("pokeball")}>boton</button> */}
 			<div className="persona" style={{ top: up, left: left }} ref={persona} tabIndex="0" onKeyDown={walk} />
-		</>
+		</body>
 	);
 };
