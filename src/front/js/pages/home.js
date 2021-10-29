@@ -1,4 +1,3 @@
-git remote add origin https://github.com/tapuks/Pokemon.git
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
@@ -10,7 +9,7 @@ export const Home = () => {
 	const [numPokemon, setNumPokemon] = useState(undefined);
 	const [className, setClassName] = useState("pokeball");
 	const [up, setUp] = useState(0);
-	const [left, setLeft] = useState(0);
+	const [left, setLeft] = useState(97);
 	const [topPokemon, setTopPokemon] = useState(0);
 	const [leftPokemon, setLeftPokemon] = useState(0);
 	const [windowWidthHeigth, setWindowWidthHeigth] = useState({ width: undefined, heigth: undefined });
@@ -21,7 +20,7 @@ export const Home = () => {
 	useEffect(() => {
 		setNumPokemon(Math.floor(Math.random() * (152 - 1) + 1));
 		console.log("num", numPokemon);
-		setWindowWidthHeigth({ width: window.innerWidth, heigth: window.innerHeight });
+		setWindowWidthHeigth({ width: window.innerWidth - 70, heigth: window.innerHeight - 70 });
 		// setTopPokemon(window.innerHeight - 100);
 		// setLeftPokemon(window.innerWidth - 100);
 	}, []);
@@ -58,15 +57,23 @@ export const Home = () => {
 		console.log("eee", e.target.style);
 		if (e.keyCode == 40) {
 			setUp(up + 5);
+			if (up > windowWidthHeigth.heigth) setUp(windowWidthHeigth.heigth);
+			if (up < 45 && left < 45) alert("pokemon!!!!");
 		}
 		if (e.keyCode == 38) {
 			setUp(up - 5);
+			if (up <= 0) setUp(0);
+			if (up < 45 && left < 45) alert("pokemon!!!!");
 		}
 		if (e.keyCode == 39) {
 			setLeft(left + 5);
+			if (left > windowWidthHeigth.width) setLeft(windowWidthHeigth.width);
+			if (up < 45 && left < 45) alert("pokemon!!!!");
 		}
 		if (e.keyCode == 37) {
 			setLeft(left - 5);
+			if (left <= 0) setLeft(0);
+			if (up < 45 && left < 45) alert("pokemon!!!!");
 		}
 	};
 
