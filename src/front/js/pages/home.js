@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState, useRef } from "react";
 import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/home.scss";
+import Fight from "../component/Fight";
 
 // import { Container } from "react-bootstrap";
 
@@ -15,6 +16,7 @@ export const Home = () => {
 	const [topPokemon, setTopPokemon] = useState(0);
 	const [leftPokemon, setLeftPokemon] = useState(0);
 	const [windowWidthHeigth, setWindowWidthHeigth] = useState({ width: undefined, heigth: undefined });
+
 	console.log("width", windowWidthHeigth.width, "heigth", windowWidthHeigth.heigth);
 
 	// TENEMOS EL ALTO Y ANCHO DE PANTALLA, DECIR QUE TOP Y LEFT DE MOVERSE EN PERSONA COMO MAXIMO Y MINIMO SEA WIDTHPANTALLA... Y LO MISMO EN HEIGTH
@@ -61,51 +63,44 @@ export const Home = () => {
 		if (e.keyCode == 40) {
 			setUp(up + 5);
 			if (up > windowWidthHeigth.heigth) setUp(windowWidthHeigth.heigth);
-			if (up < 45 && left < 45) alert("pokemon!!!!");
+			if (up < 45 && left < 45) store.figth = true;
 		}
 		if (e.keyCode == 38) {
 			setUp(up - 5);
 			if (up <= 0) setUp(0);
-			if (up < 45 && left < 45) alert("pokemon!!!!");
+			if (up < 45 && left < 45) store.figth = true;
 		}
 		if (e.keyCode == 39) {
 			setLeft(left + 5);
 			if (left > windowWidthHeigth.width) setLeft(windowWidthHeigth.width);
-			if (up < 45 && left < 45) alert("pokemon!!!!");
+			if (up < 45 && left < 45) store.figth = true;
 		}
 		if (e.keyCode == 37) {
 			setLeft(left - 5);
 			if (left <= 0) setLeft(0);
-			if (up < 45 && left < 45) alert("pokemon!!!!");
+			if (up < 45 && left < 45) store.figth = true;
 		}
 	};
 
 	return (
-		<body className="container">
-			<div className="pokemon" style={{ top: topPokemon, left: leftPokemon }}>
-				{pokemon != undefined && (
-					<img src={pokemon.sprites.front_default} />
-					// ) : (
-					// 	<span className="span">
-					// 		pokemon
-					// 		<span />
-					// 	</span>
-				)}
-			</div>
+		<div className="container">
+			{store.figth == false ? (
+				<>
+					<div className="pokemon" style={{ top: topPokemon, left: leftPokemon }}>
+						{pokemon != undefined && <img src={pokemon.sprites.front_default} />}
+					</div>
 
-			{/* <div className="center">
-				<div className={className}>
 					<div
-						className="contenido"
-						onClick={() => {
-							// newPokemon();
-							setClassName("pokeball-animation");
-						}}
+						className="persona"
+						style={{ top: up, left: left }}
+						ref={persona}
+						tabIndex="0"
+						onKeyDown={walk}
 					/>
-				</div>
-			</div> */}
-			{/* <button onClick={() => setClassName("pokeball")}>boton</button> */}
-			<div className="persona" style={{ top: up, left: left }} ref={persona} tabIndex="0" onKeyDown={walk} />
-		</body>
+				</>
+			) : (
+				<Fight imgPokemon={pokemon.sprites.front_default} namePokemon={pokemon.name} />
+			)}
+		</div>
 	);
 };

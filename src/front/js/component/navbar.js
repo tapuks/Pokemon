@@ -17,3 +17,20 @@ import { Link } from "react-router-dom";
 // 		</nav>
 // 	);
 // };
+
+{
+	/* <div className="center">
+				<div className={className}>
+					<div
+						className="contenido"
+						onClick={() => {
+							// newPokemon();
+							setClassName("pokeball-animation");
+						}}
+					/>
+				</div>
+			</div> */
+}
+{
+	/* <button onClick={() => setClassName("pokeball")}>boton</button> */
+}
