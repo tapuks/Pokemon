@@ -8,8 +8,14 @@ import { Container, Row, Col } from "react-bootstrap";
 
 const Fight = props => {
 	const { store, actions } = useContext(Context);
+	const [spanX, setSpanX] = useState("Un " + props.namePokemon + " salvaje aparecio!");
+	const [span1, setSpan1] = useState("Combate");
+	const [span2, setSpan2] = useState("Atrapar");
 
 	const [iniciFigth, setIniciFigth] = useState(0);
+	const combate = () => {
+		setSpan1("Que pokemon Eliges");
+	};
 
 	if (iniciFigth != 3) {
 		return (
@@ -50,12 +56,25 @@ const Fight = props => {
 				</Row>
 				<Row>
 					<Col className="d-flex">
-						<div className="container-info1">
-							<p>Un {props.namePokemon} salvaje aparecio!</p>
+						<div className="container-info1 d-flex align-items-center">
+							<p>{spanX}</p>
 						</div>
-						<div className="container-info2 d-flex justify-content-around">
-							<span>Combate</span>
-							<span>Atrapar</span>
+						<div className="container-info2">
+							<div className="d-flex justify-content-around">
+								<span onClick={() => combate()}>{span1}</span>
+								<span>{span2}</span>
+								<span>{span2}</span>
+							</div>
+							<div className="d-flex justify-content-around">
+								<span onClick={() => combate()}>{span1}</span>
+								<span>{span2}</span>
+								<span>{span2}</span>
+							</div>
+							<div className="d-flex justify-content-around">
+								<span onClick={() => combate()}>{span1}</span>
+								<span>{span2}</span>
+								<span>{span2}</span>
+							</div>
 						</div>
 					</Col>
 				</Row>
