@@ -3,6 +3,7 @@ import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/home.scss";
 import Fight from "../component/Fight";
+import { Container } from "react-bootstrap";
 
 // import { Container } from "react-bootstrap";
 
@@ -30,30 +31,27 @@ export const Home = () => {
 		// setLeftPokemon(window.innerWidth - 100);
 	}, []);
 
-	useEffect(
-		() => {
-			var myHeaders = new Headers();
-			myHeaders.append("Content-Type", "application/json");
+	useEffect(() => {
+		var myHeaders = new Headers();
+		myHeaders.append("Content-Type", "application/json");
 
-			// var raw = " \r\n    [{label: \"madrid\", done: true }]\r\n    \r\n  ";
+		// var raw = " \r\n    [{label: \"madrid\", done: true }]\r\n    \r\n  ";
 
-			var requestOptions = {
-				method: "GET",
-				headers: myHeaders,
-				//   body: raw,
-				redirect: "follow"
-			};
+		var requestOptions = {
+			method: "GET",
+			headers: myHeaders,
+			//   body: raw,
+			redirect: "follow"
+		};
 
-			fetch("https://pokeapi.co/api/v2/pokemon/" + numPokemon, requestOptions)
-				.then(response => response.json())
-				.then(result => {
-					console.log(result);
-					setPokemon(result);
-				})
-				.catch(error => console.log("error", error));
-		},
-		[numPokemon]
-	);
+		fetch("https://pokeapi.co/api/v2/pokemon/" + numPokemon, requestOptions)
+			.then(response => response.json())
+			.then(result => {
+				console.log(result);
+				setPokemon(result);
+			})
+			.catch(error => console.log("error", error));
+	}, [numPokemon]);
 
 	let persona = useRef();
 	const walk = e => {
@@ -83,7 +81,7 @@ export const Home = () => {
 	};
 
 	return (
-		<div className="container">
+		<Container>
 			{store.figth == false ? (
 				<>
 					<div className="pokemon" style={{ top: topPokemon, left: leftPokemon }}>
@@ -99,8 +97,8 @@ export const Home = () => {
 					/>
 				</>
 			) : (
-				<Fight imgPokemon={pokemon.sprites.front_default} namePokemon={pokemon.name} />
+				<Fight imgPokemon={pokemon.sprites.other.dream_world.front_default} namePokemon={pokemon.name} />
 			)}
-		</div>
+		</Container>
 	);
 };
