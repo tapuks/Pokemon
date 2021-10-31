@@ -11,10 +11,39 @@ const Fight = props => {
 	const [spanX, setSpanX] = useState("Un " + props.namePokemon + " salvaje aparecio!");
 	const [span1, setSpan1] = useState("Combate");
 	const [span2, setSpan2] = useState("Atrapar");
+	const [span3, setSpan3] = useState("Escapar");
+	const [span4, setSpan4] = useState("");
+	const [span5, setSpan5] = useState("");
+	const [span6, setSpan6] = useState("");
+	const [span7, setSpan7] = useState("");
+	const [span8, setSpan8] = useState("");
+	const [span9, setSpan9] = useState("");
 
 	const [iniciFigth, setIniciFigth] = useState(0);
+	const iniciCombat = () => {
+		setSpan1("Combate");
+		setSpan2("Atrapar");
+		setSpan3("Escapar");
+		setSpan4("");
+		setSpan5("");
+		setSpan6("");
+		setSpan7("");
+		setSpan8("");
+		setSpan9("");
+	};
 	const combate = () => {
-		setSpan1("Que pokemon Eliges");
+		setSpan1("Que pokemon eliges");
+		setSpan2("");
+		setSpan3("Atras");
+		setSpan4("pokemon1");
+		setSpan5("");
+		setSpan6("");
+		setSpan7("");
+		setSpan8("");
+		setSpan9("");
+	};
+	const huir = () => {
+		store.figth = false;
 	};
 
 	if (iniciFigth != 3) {
@@ -30,57 +59,79 @@ const Fight = props => {
 	} else {
 		return (
 			<Container className="container-batle">
-				<Row className="row-batle-button">
-					<Col xs lg="2"></Col>
-					<Col xs lg="5" className="col-life-name">
-						<div className="name-pokemon">{props.namePokemon.toUpperCase()}</div>
-						<div className="life-barra"></div>
-					</Col>
-					<Col className="text-center">
-						<img className="img-pokemon-vs" src={props.imgPokemon} />
-					</Col>
-				</Row>
-				<Row>
-					<Col className="text-center">
+				{store.figth == true ? (
+					<>
+						<Row className="row-batle-button">
+							<Col xs lg="2"></Col>
+							<Col xs lg="5" className="col-life-name">
+								<div className="name-pokemon">{props.namePokemon.toUpperCase()}</div>
+								<div className="life-barra"></div>
+							</Col>
+							<Col className="text-center">
+								<img className="img-pokemon-vs" src={props.imgPokemon} />
+							</Col>
+						</Row>
 						<img
-							className="ash-batle"
-							src="https://images.wikidexcdn.net/mwuploads/wikidex/thumb/9/92/latest/20190124213052/Rojo_LGPE.png/200px-Rojo_LGPE.png"
-						/>
-					</Col>
-					<Col xs lg="5" className="col-life-name">
-						<div className="name-pokemon">{props.namePokemon.toUpperCase()}</div>
-						<div className="life-barra"></div>
-					</Col>
+							className="img-pokeball"
+							src="https://tiendafrikionline.com/wp-content/uploads/2020/11/alfombra-pokeball-pokemon.jpg"></img>
+						<Row>
+							<Col className="text-center">
+								<img
+									className="ash-batle"
+									src="https://images.wikidexcdn.net/mwuploads/wikidex/thumb/9/92/latest/20190124213052/Rojo_LGPE.png/200px-Rojo_LGPE.png"
+								/>
+							</Col>
+							<Col xs lg="5" className="col-life-name">
+								<div className="name-pokemon">{props.namePokemon.toUpperCase()}</div>
+								<div className="life-barra"></div>
+							</Col>
 
-					<Col xs lg="2"></Col>
-				</Row>
-				<Row>
-					<Col className="d-flex">
-						<div className="container-info1 d-flex align-items-center">
-							<p>{spanX}</p>
-						</div>
-						<div className="container-info2">
-							<div className="d-flex justify-content-around">
-								<span onClick={() => combate()}>{span1}</span>
-								<span>{span2}</span>
-								<span>{span2}</span>
-							</div>
-							<div className="d-flex justify-content-around">
-								<span onClick={() => combate()}>{span1}</span>
-								<span>{span2}</span>
-								<span>{span2}</span>
-							</div>
-							<div className="d-flex justify-content-around">
-								<span onClick={() => combate()}>{span1}</span>
-								<span>{span2}</span>
-								<span>{span2}</span>
-							</div>
-						</div>
-					</Col>
-				</Row>
+							<Col xs lg="2"></Col>
+						</Row>
+						<Row>
+							<Col className="d-flex">
+								<div className="container-info1 d-flex align-items-center">
+									<p>{spanX}</p>
+								</div>
+								<div className="container-info2">
+									<div className="d-flex justify-content-around text-center">
+										<span onClick={() => combate()}>{span1}</span>
+										<span>{span2}</span>
+										<span
+											onClick={() => {
+												if (span3 == "Escapar") {
+													setTimeout(function() {
+														actions.huir();
+													}, 3000);
+
+													setSpanX(props.namePokemon + " te dejo escapar");
+												} else if (span3 == "Atras") {
+													iniciCombat();
+												}
+											}}>
+											{span3}
+										</span>
+									</div>
+									<div className="d-flex justify-content-around text-center">
+										<span>{span4}</span>
+										<span>{span5}</span>
+										<span>{span6}</span>
+									</div>
+									<div className="d-flex justify-content-around text-center">
+										<span onClick={() => combate()}>{span7}</span>
+										<span>{span8}</span>
+										<span>{span9}</span>
+									</div>
+								</div>
+							</Col>
+						</Row>
+					</>
+				) : (
+					<Home />
+				)}
 
 				{/* <Home />
-				{(store.figth = false)} */}
+				{store.figth = false */}
 			</Container>
 		);
 	}
