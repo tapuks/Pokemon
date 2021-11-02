@@ -23,10 +23,11 @@ const Fight = props => {
 
 	const [iniciFigth, setIniciFigth] = useState(0);
 	const [pelea, setPelea] = useState(false);
-	const [
-		ashOrPokemon,
-		setAshOrPokemon
-	] = "https://images.wikidexcdn.net/mwuploads/wikidex/thumb/9/92/latest/20190124213052/Rojo_LGPE.png/200px-Rojo_LGPE.png";
+	const [myLife, setMylife] = useState(50);
+	const [yourLife, setYourlife] = useState(100);
+	const [turn, setTurn] = useState("yo");
+	const [ataque, setAtaque] = useState(false);
+
 	const iniciCombat = () => {
 		setSpan1("Combate");
 		setSpan2("Atrapar");
@@ -77,10 +78,34 @@ const Fight = props => {
 		setSpan3("Atras");
 		setSpan4("Ataque1");
 		setSpan5("Ataque2");
-		setSpan6("Ataque3");
-		setSpan7("Ataque4");
-		setSpan8("");
+		setSpan6("");
+		setSpan7("Ataque3");
+		setSpan8("Ataque4");
 		setSpan9("");
+		setAtaque(true);
+	};
+
+	const attack = () => {
+		setSpanX(props.namePokemon + " uso ataque");
+		if (turn == "yo") {
+			setYourlife(yourLife - 30);
+			if (yourLife < 0) setYourlife(0);
+
+			setTimeout(() => {
+				setMylife(myLife - 30);
+				if (myLife < 0) setMylife(0);
+				setTurn("yo");
+			}, 1000);
+		}
+		if (turn == "tu") {
+			setMylife(myLife - 30);
+			if (myLife < 0) setMylife(0);
+
+			setTimeout(() => {
+				setYourlife(yourLife - 30);
+				if (yourLife < 0) setYourlife(0);
+			}, 1000);
+		}
 	};
 
 	if (iniciFigth != 3) {
@@ -95,7 +120,7 @@ const Fight = props => {
 		);
 	} else {
 		return (
-			<Container className="container-batle">
+			<Container className="container-batle mt-5">
 				{store.figth == true ? (
 					<>
 						{/* POKEMON RIVAL + BARRA VIDA */}
@@ -104,7 +129,9 @@ const Fight = props => {
 							<Col xs lg="5" className="col-life-name">
 								<div className="name-pokemon">{props.namePokemon.toUpperCase()}</div>
 								<div className="life-barra">
-									<div className="life-barra-dentro"></div>
+									<div
+										className="life-barra-dentro"
+										style={yourLife < 0 ? { width: 0 + "%" } : { width: yourLife + "%" }}></div>
 								</div>
 							</Col>
 							<Col className="text-center">
@@ -131,13 +158,17 @@ const Fight = props => {
 									</>
 								)}
 							</Col>
-							{/* NOMNRE + BARRA VIDA */}
-							<Col xs lg="5" className="col-life-name">
-								<div className="name-pokemon">{props.namePokemon.toUpperCase()}</div>
-								<div className="life-barra">
-									<div className="life-barra-dentro"></div>
-								</div>
-							</Col>
+							{/* NOMBRE MI POKEMON + BARRA VIDA */}
+							{pelea == true && (
+								<Col xs lg="5" className="col-life-name">
+									<div className="name-pokemon">{props.namePokemon.toUpperCase()}</div>
+									<div className="life-barra">
+										<div
+											className="life-barra-dentro"
+											style={myLife < 0 ? { width: 0 + "%" } : { width: myLife + "%" }}></div>
+									</div>
+								</Col>
+							)}
 
 							<Col xs lg="2"></Col>
 						</Row>
@@ -172,6 +203,9 @@ const Fight = props => {
 									<div className="d-flex justify-content-around text-center">
 										<span
 											onClick={() => {
+												if (ataque == true) {
+													attack();
+												}
 												setPelea(true);
 												optionsAttackPokemon();
 											}}>
