@@ -1,10 +1,31 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			newPokemon: undefined,
 			figth: false
 		},
+
 		actions: {
-			// Use getActions to call a function within a fuction
+			getPokemon: () => {
+				let numPokemon = Math.floor(Math.random() * (152 - 1) + 1);
+				console.log("num", numPokemon);
+				var myHeaders = new Headers();
+				myHeaders.append("Content-Type", "application/json");
+
+				var requestOptions = {
+					method: "GET",
+					headers: myHeaders,
+					redirect: "follow"
+				};
+
+				fetch("https://pokeapi.co/api/v2/pokemon/" + numPokemon, requestOptions)
+					.then(response => response.json())
+					.then(result => {
+						console.log(result);
+						setStore({ newPokemon: result });
+					})
+					.catch(error => console.log("error", error));
+			},
 
 			huir: () => {
 				setStore({ figth: false });

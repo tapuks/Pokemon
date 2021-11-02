@@ -24,34 +24,13 @@ export const Home = () => {
 	// document.body.style = "background: green;";
 
 	useEffect(() => {
-		setNumPokemon(Math.floor(Math.random() * (152 - 1) + 1));
-		console.log("num", numPokemon);
+		actions.getPokemon();
 		setWindowWidthHeigth({ width: window.innerWidth - 70, heigth: window.innerHeight - 70 });
 		// setTopPokemon(window.innerHeight - 100);
 		// setLeftPokemon(window.innerWidth - 100);
 	}, []);
 
-	useEffect(() => {
-		var myHeaders = new Headers();
-		myHeaders.append("Content-Type", "application/json");
-
-		// var raw = " \r\n    [{label: \"madrid\", done: true }]\r\n    \r\n  ";
-
-		var requestOptions = {
-			method: "GET",
-			headers: myHeaders,
-			//   body: raw,
-			redirect: "follow"
-		};
-
-		fetch("https://pokeapi.co/api/v2/pokemon/" + numPokemon, requestOptions)
-			.then(response => response.json())
-			.then(result => {
-				console.log(result);
-				setPokemon(result);
-			})
-			.catch(error => console.log("error", error));
-	}, [numPokemon]);
+	useEffect(() => {}, [numPokemon]);
 
 	let persona = useRef();
 	const walk = e => {
@@ -85,7 +64,7 @@ export const Home = () => {
 			{store.figth == false ? (
 				<>
 					<div className="pokemon" style={{ top: topPokemon, left: leftPokemon }}>
-						{pokemon != undefined && <img src={pokemon.sprites.front_default} />}
+						{store.newPokemon != undefined && <img src={store.newPokemon.sprites.front_default} />}
 					</div>
 
 					<div
@@ -97,7 +76,10 @@ export const Home = () => {
 					/>
 				</>
 			) : (
-				<Fight imgPokemon={pokemon.sprites.other.dream_world.front_default} namePokemon={pokemon.name} />
+				<Fight
+					imgPokemon={store.newPokemon.sprites.other.dream_world.front_default}
+					namePokemon={store.newPokemon.name}
+				/>
 			)}
 		</Container>
 	);
