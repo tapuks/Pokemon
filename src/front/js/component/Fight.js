@@ -5,6 +5,7 @@ import { Context } from "../store/appContext";
 import { Home } from "../pages/home";
 import PropTypes from "prop-types";
 import { Container, Row, Col } from "react-bootstrap";
+import { style } from "dom-helpers";
 
 const Fight = props => {
 	const { store, actions } = useContext(Context);
@@ -27,6 +28,10 @@ const Fight = props => {
 	const [yourLife, setYourlife] = useState(100);
 	const [turn, setTurn] = useState("yo");
 	const [ataque, setAtaque] = useState(false);
+	const [imgArañazo, setImgArañazo] = useState(false);
+	const [imgArañazoMe, setImgArañazoMe] = useState(false);
+	const [pokemonDeadMe, setPokemonDeadMe] = useState(false);
+	const [pokemonDeadYour, setPokemonDeadYour] = useState(false);
 
 	const iniciCombat = () => {
 		setSpan1("Combate");
@@ -85,17 +90,39 @@ const Fight = props => {
 		setAtaque(true);
 	};
 
+	// ARREGLAR QUE SE VEA OSCURO CUANDO DEJO MUERTO A  POKEMON Y PONER EL STYLO OSCURO EN MI POKEMON DERROTADO
+
 	const attack = () => {
 		setSpanX(props.namePokemon + " uso ataque");
 		if (turn == "yo") {
-			setYourlife(yourLife - 30);
-			if (yourLife < 0) setYourlife(0);
+			// ATAQUE MIO
+			setTimeout(() => {
+				setYourlife(yourLife - 30);
+				setImgArañazo(true);
+				if (yourLife <= 0) {
+					setYourlife(0);
+					setPokemonDeadYour(true);
+				}
+			}, 100);
 
 			setTimeout(() => {
+				setImgArañazo(false);
+			}, 200);
+
+			// ATAQUE RIVAL
+			setTimeout(() => {
+				setImgArañazoMe(true);
 				setMylife(myLife - 30);
-				if (myLife < 0) setMylife(0);
+				if (myLife <= 0) {
+					setMylife(0);
+					setPokemonDeadMe(true);
+				}
 				setTurn("yo");
 			}, 1000);
+
+			setTimeout(() => {
+				setImgArañazoMe(false);
+			}, 1200);
 		}
 		if (turn == "tu") {
 			setMylife(myLife - 30);
@@ -134,8 +161,25 @@ const Fight = props => {
 										style={yourLife < 0 ? { width: 0 + "%" } : { width: yourLife + "%" }}></div>
 								</div>
 							</Col>
+							{/* POKEMON RIVAL */}
 							<Col className="text-center">
-								<img className={classAnimationPkemonVsAtrapar} src={props.imgPokemon} />
+								<div>
+									<img
+										style={
+											pokemonDeadYour == false
+												? { filter: "brightness(100%)" }
+												: { filter: "brightness(10%)" }
+										}
+										className={classAnimationPkemonVsAtrapar}
+										src={imgArañazo == false && props.imgPokemon}
+									/>
+									{imgArañazo == true && (
+										<img
+											className="img-arañazo"
+											src="https://previews.123rf.com/images/thanawong/thanawong1708/thanawong170800122/84955190-garras-de-animales-dibujados-a-mano-ara%C3%B1azos-ara%C3%B1azos-gato-tigre-rasgu%C3%B1a-la-forma-de-la-pata-cuatro-.jpg"
+										/>
+									)}
+								</div>
 							</Col>
 						</Row>
 						{/* ANIMACION POKEMON ATRAPADO */}
@@ -154,7 +198,14 @@ const Fight = props => {
 									/>
 								) : (
 									<>
-										<img className="ash-batle" src={store.newPokemon.sprites.back_default} />
+										<img
+											className="ash-batle"
+											src={
+												imgArañazoMe == false
+													? store.newPokemon.sprites.back_default
+													: "https://dbdzm869oupei.cloudfront.net/img/alfombretaratoli/preview/48172.png"
+											}
+										/>
 									</>
 								)}
 							</Col>

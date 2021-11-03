@@ -172,6 +172,9 @@ body {
 }
 .img-pokemon-vs {
     width: 10rem;
+    position: relative;
+   
+
 }
 .life-barra {
     width: 100%;
@@ -180,17 +183,13 @@ body {
     background-color: white;
     border-radius: 10px;
 }
-.col-life-name {
-//     display: flex;
-//     flex-direction: column;
-//    align-items: center;
-}
+
 .name-pokemon {
     margin-top: 40px;
     font-weight: bold;
 }
 .row-batle-button {
-    height: 50%;
+    height: 48%;
 }
 .container-info1, 
     .container-info2  {
@@ -284,4 +283,13 @@ body {
     background: blue;
     border-radius: 10px;
 }
+.img-arañazo {
+   width: 20rem;
+    // position: relative;
+   
+}
+// .oscurecer-img {
+//     filter: brightness(10%); 
+//     position: absolute;
+// }
 
