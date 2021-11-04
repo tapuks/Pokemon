@@ -96,33 +96,28 @@ const Fight = props => {
 		setSpanX(props.namePokemon + " uso ataque");
 		if (turn == "yo") {
 			// ATAQUE MIO
-			setTimeout(() => {
-				setYourlife(yourLife - 30);
-				setImgArañazo(true);
-				if (yourLife <= 0) {
-					setYourlife(0);
-					setPokemonDeadYour(true);
-				}
-			}, 100);
+			if (myLife > 0) {
+				setTimeout(() => {
+					setYourlife(yourLife - 30);
+					setImgArañazo(true);
+				}, 100);
 
-			setTimeout(() => {
-				setImgArañazo(false);
-			}, 200);
+				setTimeout(() => {
+					setImgArañazo(false);
+				}, 200);
+			}
 
 			// ATAQUE RIVAL
-			setTimeout(() => {
-				setImgArañazoMe(true);
-				setMylife(myLife - 30);
-				if (myLife <= 0) {
-					setMylife(0);
-					setPokemonDeadMe(true);
-				}
+			if (yourLife > 0) {
+				setTimeout(() => {
+					setImgArañazoMe(true);
+					setMylife(myLife - 30);
+				}, 1000);
+				setTimeout(() => {
+					setImgArañazoMe(false);
+				}, 1200);
 				setTurn("yo");
-			}, 1000);
-
-			setTimeout(() => {
-				setImgArañazoMe(false);
-			}, 1200);
+			}
 		}
 		if (turn == "tu") {
 			setMylife(myLife - 30);
@@ -134,6 +129,32 @@ const Fight = props => {
 			}, 1000);
 		}
 	};
+
+	//POKEMON DERROTADO
+	useEffect(() => {
+		if (yourLife <= 0) {
+			setYourlife(0);
+			setPokemonDeadYour(true);
+			setSpanX(props.namePokemon + " salvaje fue derrotado.");
+		}
+		if (myLife <= 0) {
+			setTimeout(() => {
+				setMylife(0);
+				setPokemonDeadMe(true);
+				setSpanX(props.namePokemon + " fue derrotado.");
+				setSpan1("");
+				setSpan2("Cambio de pokemon");
+				setSpan3("");
+				setSpan4("pokemon1");
+				setSpan5("pokemon2");
+				setSpan6("pokemon3");
+				setSpan7("pokemon4");
+				setSpan8("pokemon5");
+				setSpan9("pokemon6");
+				setAtaque(true);
+			}, 500);
+		}
+	}, [yourLife, myLife]);
 
 	if (iniciFigth != 3) {
 		return (
@@ -199,6 +220,11 @@ const Fight = props => {
 								) : (
 									<>
 										<img
+											style={
+												pokemonDeadMe == false
+													? { filter: "brightness(100%)" }
+													: { filter: "brightness(10%)" }
+											}
 											className="ash-batle"
 											src={
 												imgArañazoMe == false
@@ -210,7 +236,7 @@ const Fight = props => {
 								)}
 							</Col>
 							{/* NOMBRE MI POKEMON + BARRA VIDA */}
-							{pelea == true && (
+							{pelea == true ? (
 								<Col xs lg="5" className="col-life-name">
 									<div className="name-pokemon">{props.namePokemon.toUpperCase()}</div>
 									<div className="life-barra">
@@ -219,9 +245,32 @@ const Fight = props => {
 											style={myLife < 0 ? { width: 0 + "%" } : { width: myLife + "%" }}></div>
 									</div>
 								</Col>
+							) : (
+								<Col xs lg="5"></Col>
 							)}
-
-							<Col xs lg="2"></Col>
+							{/* POKEBALLS DE POKEMON DISPONIBLES */}
+							<Col xs lg="2">
+								<div className="d-flex">
+									<img
+										className="img-mispokeball"
+										src="https://cdn-icons-png.flaticon.com/512/361/361998.png"></img>
+									<img
+										className="img-mispokeball"
+										src="https://cdn-icons-png.flaticon.com/512/361/361998.png"></img>
+									<img
+										className="img-mispokeball"
+										src="https://cdn-icons-png.flaticon.com/512/361/361998.png"></img>
+									<img
+										className="img-mispokeball"
+										src="https://cdn-icons-png.flaticon.com/512/361/361998.png"></img>
+									<img
+										className="img-mispokeball"
+										src="https://cdn-icons-png.flaticon.com/512/361/361998.png"></img>
+									<img
+										className="img-mispokeball"
+										src="https://cdn-icons-png.flaticon.com/512/361/361998.png"></img>
+								</div>
+							</Col>
 						</Row>
 						<Row>
 							<Col className="d-flex">
@@ -234,7 +283,13 @@ const Fight = props => {
 									<div className="d-flex justify-content-around text-center">
 										{/* SPAN 1, 2, 3 */}
 										<span onClick={() => combate()}>{span1}</span>
-										<span onClick={() => atrapa()}>{span2}</span>
+										<span
+											onClick={() => {
+												setPelea(false);
+												atrapa();
+											}}>
+											{span2}
+										</span>
 										<span
 											onClick={() => {
 												if (span3 == "Escapar") {
