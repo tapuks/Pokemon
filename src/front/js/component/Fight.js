@@ -37,7 +37,7 @@ const Fight = props => {
 		setSpan1("Combate");
 		setSpan2("Atrapar");
 		setSpan3("Escapar");
-		setSpan4("");
+		setSpan4(pelea == true ? "Cambio pokemon" : "");
 		setSpan5("");
 		setSpan6("");
 		setSpan7("");
@@ -89,8 +89,6 @@ const Fight = props => {
 		setSpan9("");
 		setAtaque(true);
 	};
-
-	// ARREGLAR QUE SE VEA OSCURO CUANDO DEJO MUERTO A  POKEMON Y PONER EL STYLO OSCURO EN MI POKEMON DERROTADO
 
 	const attack = () => {
 		setSpanX(props.namePokemon + " uso ataque");
@@ -155,6 +153,23 @@ const Fight = props => {
 			}, 500);
 		}
 	}, [yourLife, myLife]);
+
+	const cambioPokemon = () => {
+		setPokemonDeadMe(true);
+
+		setSpan1("");
+		setSpan2("Que pokemon eliges");
+		setSpan3("");
+		setSpan4("pokemon1");
+		setSpan5("pokemon2");
+		setSpan6("pokemon3");
+		setSpan7("pokemon4");
+		setSpan8("pokemon5");
+		setSpan9("pokemon6");
+		// setAtaque(true);
+	};
+
+	useEffect(() => {}, [ataque]);
 
 	if (iniciFigth != 3) {
 		return (
@@ -282,7 +297,16 @@ const Fight = props => {
 								<div className="container-info2">
 									<div className="d-flex justify-content-around text-center">
 										{/* SPAN 1, 2, 3 */}
-										<span onClick={() => combate()}>{span1}</span>
+										<span
+											onClick={() => {
+												if (pelea == true) {
+													optionsAttackPokemon();
+												} else {
+													combate();
+												}
+											}}>
+											{span1}
+										</span>
 										<span
 											onClick={() => {
 												setPelea(false);
@@ -312,8 +336,14 @@ const Fight = props => {
 												if (ataque == true) {
 													attack();
 												}
-												setPelea(true);
-												optionsAttackPokemon();
+												if (span1 == "Que pokemon eliges") {
+													setPelea(true);
+													optionsAttackPokemon();
+												}
+												if (span4 == "Cambio pokemon") {
+													// aaaa
+													// combate();
+												}
 											}}>
 											{span4}
 										</span>
