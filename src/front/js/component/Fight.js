@@ -45,7 +45,7 @@ const Fight = props => {
 		setSpan9("");
 	};
 	const combate = () => {
-		setSpan1("Que pokemon eliges");
+		setSpan1("¿Que pokemon eliges?");
 		setSpan2("");
 		setSpan3("Atras");
 		setSpan4(store.newPokemon.name.toUpperCase());
@@ -91,40 +91,42 @@ const Fight = props => {
 	};
 
 	const attack = () => {
-		setSpanX(props.namePokemon + " uso ataque");
-		if (turn == "yo") {
-			// ATAQUE MIO
-			if (myLife > 0) {
+		if (span4 != "Cambio pokemon" && span1 != "¿Que pokemon eliges?") {
+			setSpanX(props.namePokemon + " uso ataque");
+			if (turn == "yo") {
+				// ATAQUE MIO
+				if (myLife > 0) {
+					setTimeout(() => {
+						setYourlife(yourLife - 30);
+						setImgArañazo(true);
+					}, 100);
+
+					setTimeout(() => {
+						setImgArañazo(false);
+					}, 200);
+				}
+
+				// ATAQUE RIVAL
+				if (yourLife > 0) {
+					setTimeout(() => {
+						setImgArañazoMe(true);
+						setMylife(myLife - 10);
+					}, 1000);
+					setTimeout(() => {
+						setImgArañazoMe(false);
+					}, 1200);
+					setTurn("yo");
+				}
+			}
+			if (turn == "tu") {
+				setMylife(myLife - 30);
+				if (myLife < 0) setMylife(0);
+
 				setTimeout(() => {
 					setYourlife(yourLife - 30);
-					setImgArañazo(true);
-				}, 100);
-
-				setTimeout(() => {
-					setImgArañazo(false);
-				}, 200);
-			}
-
-			// ATAQUE RIVAL
-			if (yourLife > 0) {
-				setTimeout(() => {
-					setImgArañazoMe(true);
-					setMylife(myLife - 30);
+					if (yourLife < 0) setYourlife(0);
 				}, 1000);
-				setTimeout(() => {
-					setImgArañazoMe(false);
-				}, 1200);
-				setTurn("yo");
 			}
-		}
-		if (turn == "tu") {
-			setMylife(myLife - 30);
-			if (myLife < 0) setMylife(0);
-
-			setTimeout(() => {
-				setYourlife(yourLife - 30);
-				if (yourLife < 0) setYourlife(0);
-			}, 1000);
 		}
 	};
 
@@ -336,13 +338,17 @@ const Fight = props => {
 												if (ataque == true) {
 													attack();
 												}
-												if (span1 == "Que pokemon eliges") {
+												if (span1 == "¿Que pokemon eliges?") {
 													setPelea(true);
 													optionsAttackPokemon();
 												}
 												if (span4 == "Cambio pokemon") {
 													// aaaa
-													// combate();
+													combate();
+												}
+												if (span4 == "¿Que pokemon eliges?") {
+													// setPelea(true);
+													// optionsAttackPokemon();
 												}
 											}}>
 											{span4}

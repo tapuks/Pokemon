@@ -21,11 +21,12 @@ export const Home = () => {
 	console.log("width", windowWidthHeigth.width, "heigth", windowWidthHeigth.heigth);
 
 	// TENEMOS EL ALTO Y ANCHO DE PANTALLA, DECIR QUE TOP Y LEFT DE MOVERSE EN PERSONA COMO MAXIMO Y MINIMO SEA WIDTHPANTALLA... Y LO MISMO EN HEIGTH
-	// document.body.style = "background: green;";
+	document.body.style = "background: green;";
 
 	useEffect(() => {
 		actions.getPokemon();
 		setWindowWidthHeigth({ width: window.innerWidth - 70, heigth: window.innerHeight - 70 });
+
 		// setTopPokemon(window.innerHeight - 100);
 		// setLeftPokemon(window.innerWidth - 100);
 	}, []);
@@ -37,25 +38,38 @@ export const Home = () => {
 		// const { style } = persona.current;
 		console.log("aaaa", e.keyCode);
 		console.log("eee", e.target.style);
+		let positionWidthOAk = windowWidthHeigth.heigth / 5;
 		if (e.keyCode == 40) {
 			setUp(up + 5);
 			if (up > windowWidthHeigth.heigth) setUp(windowWidthHeigth.heigth);
 			if (up < 45 && left < 45) store.figth = true;
+			if (up < positionWidthOAk + 50 && left > windowWidthHeigth.width - 80) {
+				alert("siiii");
+			}
 		}
 		if (e.keyCode == 38) {
 			setUp(up - 5);
 			if (up <= 0) setUp(0);
 			if (up < 45 && left < 45) store.figth = true;
+			if (up < positionWidthOAk + 50 && left > windowWidthHeigth.width - 80) {
+				alert("siiii");
+			}
 		}
 		if (e.keyCode == 39) {
 			setLeft(left + 5);
 			if (left > windowWidthHeigth.width) setLeft(windowWidthHeigth.width);
 			if (up < 45 && left < 45) store.figth = true;
+			if (up < positionWidthOAk + 50 && left > windowWidthHeigth.width - 80) {
+				alert("siiii");
+			}
 		}
 		if (e.keyCode == 37) {
 			setLeft(left - 5);
 			if (left <= 0) setLeft(0);
 			if (up < 45 && left < 45) store.figth = true;
+			if (up < positionWidthOAk + 50 && left > windowWidthHeigth.width - 80) {
+				alert("siiii");
+			}
 		}
 	};
 
@@ -74,6 +88,16 @@ export const Home = () => {
 						tabIndex="0"
 						onKeyDown={walk}
 					/>
+					<div className="dr">
+						<img
+							className="dr-oak"
+							style={{ top: windowWidthHeigth.heigth / 5, left: windowWidthHeigth.width - 50 }}
+							src="https://cdn-icons-png.flaticon.com/512/921/921130.png"></img>
+						<img
+							className="pokeball-oak"
+							style={{ top: windowWidthHeigth.heigth / 5, left: windowWidthHeigth.width - 50 }}
+							src="https://cdn-icons.flaticon.com/png/512/1169/premium/1169608.png?token=exp=1636384035~hmac=74411602a81ebcef975867ba5ed1b9ba"></img>
+					</div>
 				</>
 			) : (
 				<Fight

@@ -99,7 +99,8 @@ body {
     height: 4rem;
     // background-color: blue;
     position: absolute;
-    background-image: url('../img/person.png');
+    // background-image: url('../img/person.png');
+    background-image: url('https://cdn-icons-png.flaticon.com/512/362/362003.png');
     background-repeat: no-repeat;
     background-size: cover;
     left: 0;
@@ -293,4 +294,21 @@ body {
     margin-top: 60px;
     margin-left: 5px;
 }
+.dr-oak {
+    width: 64px;
+    position: absolute;
+    // left: 90%;
+    // top: 20%;
+}
+.pokeball-oak {
+    width: 1.2rem;
+    position: absolute;
+    // left: 91%;
+    // top: 26%;
+}
+// .dr {
+//     position: absolute;
+//     left: 91%;
+//     top: 26%;
+// }
 
