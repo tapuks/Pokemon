@@ -31,6 +31,28 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ figth: false });
 			},
 
+			sendLogin: (email, password) => {
+				var myHeaders = new Headers();
+				myHeaders.append("Content-Type", "application/json");
+
+				var raw = JSON.stringify({
+					email: email,
+					password: password
+				});
+
+				var requestOptions = {
+					method: "POST",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+
+				fetch("http://127.0.0.1:8000/api/auth/token/", requestOptions)
+					.then(response => response.json())
+					.then(result => console.log(result))
+					.catch(error => console.log("error", error));
+			},
+
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},

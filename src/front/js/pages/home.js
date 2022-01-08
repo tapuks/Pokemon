@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
+// import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/home.scss";
 import Fight from "../component/Fight";
 import { Container } from "react-bootstrap";
