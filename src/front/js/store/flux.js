@@ -2,7 +2,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			newPokemon: undefined,
-			figth: false
+			figth: false,
+			alert: false,
+			alertRegisterEmail: "",
+			alertRegisterUsername: "",
+			alertRegisterPassword: ""
 		},
 
 		actions: {
@@ -31,7 +35,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ figth: false });
 			},
 
-			sendLogin: (email, password) => {
+			sendLogin: (email, password, history) => {
+				setStore({ alert: false });
 				var myHeaders = new Headers();
 				myHeaders.append("Content-Type", "application/json");
 
@@ -49,8 +54,69 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				fetch("http://127.0.0.1:8000/api/auth/token/", requestOptions)
 					.then(response => response.json())
-					.then(result => console.log(result))
-					.catch(error => console.log("error", error));
+					.then(result => {
+						console.log(result);
+						if (result.refresh) {
+							history.push("/home");
+						} else {
+							getActions().alertInfo();
+						}
+					})
+					.catch(error => {
+						console.log("error", error);
+						alert("Error en el servidor");
+					});
+			},
+
+			sendRegister: (email, password, username, history) => {
+				setStore({ alertRegisterEmail: "" });
+				setStore({ alertRegisterUsername: "" });
+				setStore({ alertRegisterPassword: "" });
+				setStore({ alert: false });
+
+				var myHeaders = new Headers();
+				myHeaders.append("Content-Type", "application/json");
+
+				var raw = JSON.stringify({
+					email: email,
+					password: password,
+					username: username
+				});
+
+				var requestOptions = {
+					method: "POST",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+
+				fetch("http://127.0.0.1:8000/api/auth/register", requestOptions)
+					.then(response => response.json())
+					.then(result => {
+						console.log(result);
+
+						if (result.id) {
+							history.push("/home");
+						} else {
+							if (result.email) {
+								setStore({ alertRegisterEmail: result.email });
+							}
+							if (result.username) {
+								setStore({ alertRegisterUsername: result.username });
+							}
+							if (result.password) {
+								setStore({ alertRegisterPassword: result.password });
+							}
+						}
+					})
+					.catch(error => {
+						console.log("error", error);
+						alert("Error en el servidor");
+					});
+			},
+
+			alertInfo: () => {
+				setStore({ alert: true });
 			},
 
 			exampleFunction: () => {

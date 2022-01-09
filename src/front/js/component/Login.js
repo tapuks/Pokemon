@@ -1,24 +1,21 @@
 import React, { Component, useState, useContext, useEffect } from "react";
-import { Container, Col, Row, Form, Button } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
+import { Container, Col, Row, Form, Button, Alert } from "react-bootstrap";
 // import rigoImageUrl from "../../img/rigo-baby.jpg";
 import pokemonLetras from "../../img/letras-pokemon.png";
 import { Context } from "../store/appContext";
 
 const Login = () => {
+	const history = useHistory();
 	const { store, actions } = useContext(Context);
 
-	const [step, setStep] = useState(1);
+	const [step, setStep] = useState(2);
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const [username, setUsername] = useState("");
 	document.body.style = "background: white;";
 
 	if (step == 1) {
-		const [email, setEmail] = useState("");
-		const [password, setPassword] = useState("");
-
-		useEffect(() => {
-			console.log(email);
-			console.log("pass", password);
-		}, [email, password]);
-
 		return (
 			<Container className="body-login">
 				<div className="container-letras text-center">
@@ -64,7 +61,7 @@ const Login = () => {
 							<Button
 								onClick={e => {
 									e.preventDefault();
-									actions.sendLogin(email, password);
+									actions.sendLogin(email, password, history);
 								}}
 								className="submit"
 								variant="primary"
@@ -77,11 +74,25 @@ const Login = () => {
 				<Row>
 					<Col md={4}></Col>
 					<Col className="cool" md={4}>
-						<a onClick={() => setStep(2)} className="enlace">
+						<a
+							onClick={() => {
+								setStep(2);
+								setEmail("");
+								setPassword("");
+							}}
+							className="enlace">
 							Registrarse
 						</a>
 					</Col>
 				</Row>
+				{store.alert == true && (
+					<Row>
+						<Col md={4}></Col>
+						<Col className="cool" md={4}>
+							<Alert variant="danger">Usuario o password incorrecto</Alert>
+						</Col>
+					</Row>
+				)}
 			</Container>
 		);
 	}
@@ -101,7 +112,12 @@ const Login = () => {
 								<Form.Label>
 									<strong>User</strong>
 								</Form.Label>
-								<Form.Control className="input" type="email" placeholder="Enter email" />
+								<Form.Control
+									className="input"
+									type="email"
+									placeholder="Enter email"
+									onChange={e => setUsername(e.target.value)}
+								/>
 							</Form.Group>
 						</Col>
 					</Row>
@@ -112,7 +128,12 @@ const Login = () => {
 								<Form.Label>
 									<strong>Email</strong>
 								</Form.Label>
-								<Form.Control className="input" type="email" placeholder="Enter email" />
+								<Form.Control
+									className="input"
+									type="email"
+									placeholder="Enter email"
+									onChange={e => setEmail(e.target.value)}
+								/>
 							</Form.Group>
 						</Col>
 					</Row>
@@ -123,14 +144,26 @@ const Login = () => {
 								<Form.Label>
 									<strong>Password</strong>
 								</Form.Label>
-								<Form.Control className="input" type="password" placeholder="Password" />
+								<Form.Control
+									className="input"
+									type="password"
+									placeholder="Password"
+									onChange={e => setPassword(e.target.value)}
+								/>
 							</Form.Group>
 						</Col>
 					</Row>
 					<Row>
 						<Col md={4}></Col>
 						<Col className="cool" md={4}>
-							<Button className="submit" variant="primary" type="submit">
+							<Button
+								className="submit"
+								variant="primary"
+								type="submit"
+								onClick={e => {
+									e.preventDefault();
+									actions.sendRegister(email, password, username, history);
+								}}>
 								Registrarse
 							</Button>
 						</Col>
@@ -139,9 +172,30 @@ const Login = () => {
 				<Row>
 					<Col md={4}></Col>
 					<Col className="cool" md={4}>
-						<a onClick={() => setStep(1)} className="enlace">
+						<a
+							onClick={() => {
+								setStep(1);
+								setEmail("");
+								setPassword("");
+							}}
+							className="enlace">
 							Continuar partida
 						</a>
+					</Col>
+				</Row>
+
+				<Row>
+					<Col md={4}></Col>
+					<Col className="cool" md={4}>
+						{store.alertRegisterEmail != "" ? (
+							<Alert variant="danger">Email: {store.alertRegisterEmail}</Alert>
+						) : store.alertRegisterUsername != "" ? (
+							<Alert variant="danger">Username: {store.alertRegisterUsername}</Alert>
+						) : store.alertRegisterPassword != "" ? (
+							<Alert variant="danger">Password: {store.alertRegisterPassword}</Alert>
+						) : (
+							""
+						)}
 					</Col>
 				</Row>
 			</Container>
